@@ -1,0 +1,742 @@
+:root {
+    --bg: #08080a;
+    --accent: #6366f1;
+    --accent-glow: rgba(99, 102, 241, 0.5);
+    --text-white: #ffffff;
+    --text-gray: #94a3b8;
+    --glass: rgba(255, 255, 255, 0.05);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: var(--bg); color: var(--text-white); overflow-x: hidden; }
+
+/* Dynamic Mesh Background */
+/* Enhanced Dynamic Animated Background */
+.mesh-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-color: #030305;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+    filter: blur(80px); /* Softens the colors into a mesh */
+    animation: backgroundMove 20s infinite alternate ease-in-out;
+}
+
+/* Moving Animation for the Mesh */
+@keyframes backgroundMove {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(2deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+/* Subtle Animated Grid Overlay */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px; /* Creates a subtle tech-grid effect */
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.4;
+}
+.noise-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.05; z-index: -1; pointer-events: none;
+}
+
+/* Floating Navigation */
+.nav-container {
+    position: fixed; top: 30px; width: 100%; display: flex; justify-content: center; z-index: 1000;
+}
+.glass-nav {
+    background: rgba(15, 15, 20, 0.7); backdrop-filter: blur(15px);
+    padding: 12px 40px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1);
+    display: flex; gap: 50px; align-items: center;
+}
+.logo { font-weight: 800; font-size: 1.2rem; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a { 
+    color: var(--text-gray); text-decoration: none; font-size: 0.9rem; 
+    cursor: pointer; transition: 0.3s; 
+}
+.nav-links a.active, .nav-links a:hover { color: var(--text-white); text-shadow: 0 0 10px var(--accent-glow); }
+
+/* Page Logic */
+.page { 
+    display: none; padding: 160px 10% 80px; min-height: 100vh;
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.page.active { display: block; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Profile Glowing Rings (The "Circle" Fix) */
+.profile-glow-ring {
+    position: relative; width: 350px; height: 350px;
+    background: linear-gradient(45deg, var(--accent), #a855f7);
+    border-radius: 50%; padding: 5px;
+    box-shadow: 0 0 60px rgba(99, 102, 241, 0.3);
+}
+.circle-profile {
+    width: 100%; height: 100%; border-radius: 50%; 
+    object-fit: cover; background: #000; border: 4px solid var(--bg);
+}
+/* Project Gallery Styles */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.project-item {
+    background: var(--glass);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 0.4s;
+}
+
+.project-image-box {
+    position: relative;
+    height: 200px;
+    background: #111;
+    overflow: hidden;
+}
+
+.project-image-box img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.project-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 15, 20, 0.9);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: 0.3s;
+}
+
+.project-item:hover .project-overlay { opacity: 1; }
+.project-item:hover .project-image-box img { transform: scale(1.1); }
+
+.project-info { padding: 25px; }
+.tech-tag { font-size: 11px; color: var(--accent); font-weight: 700; text-transform: uppercase; }
+.project-info h3 { margin: 10px 0; font-size: 1.4rem; }
+.project-info p { color: var(--text-gray); font-size: 0.9rem; }
+
+.btn-mini {
+    padding: 8px 16px; border-radius: 8px; font-size: 12px;
+    text-decoration: none; font-weight: 600; background: var(--accent); color: white;
+}
+.btn-mini.secondary { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); margin-left: 10px; }
+
+/* About Page Circle Fix */
+.about-wrapper {
+    display: flex; align-items: center; gap: 50px;
+}
+
+.about-circle-frame {
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 4px solid var(--accent);
+    padding: 10px;
+    box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.about-profile-pic {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.skills-list { display: flex; gap: 15px; margin-top: 20px; color: var(--text-gray); }
+
+@media (max-width: 768px) {
+    .about-wrapper { flex-direction: column; text-align: center; }
+    .skills-list { justify-content: center; }
+}
+
+
+/* Home Section Layout */
+.hero-section { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; /* Center the group together */
+    gap: 100px; /* Reduced gap to bring them closer */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.hero-content-wrapper {
+    flex: 1.2; /* Takes slightly more space than the image */
+    display: flex;
+    justify-content: flex-end; /* Pushes text toward the center */
+}
+.hero-content { 
+    max-width: 500px; /* Limits width so it doesn't push the image away */
+}
+h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
+.gradient-text { background: linear-gradient(90deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* Premium Cards */
+.premium-card {
+    background: var(--glass); border: 1px solid rgba(255,255,255,0.08);
+    padding: 40px; border-radius: 24px; position: relative; overflow: hidden;
+    transition: 0.4s;
+}
+.premium-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.06); border-color: var(--accent); }
+
+/* Buttons */
+.btn-primary { background: var(--accent); color: white; border: none; padding: 15px 35px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.btn-primary:hover { box-shadow: 0 0 25px var(--accent-glow); transform: scale(1.05); }
+
+@media (max-width: 900px) {
+    .hero-section { flex-direction: column-reverse; text-align: center; }
+    .profile-glow-ring { width: 250px; height: 250px; }
+    .glass-nav { gap: 20px; padding: 10px 20px; }
+    .nav-links { display: none; } /* Mobile hidden for simplicity, can add burger later */
+}
+.social-grid {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+
+.social-link {
+    text-decoration: none;
+    color: var(--text-color, #ffffff);
+    font-size: 2rem;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.social-link:hover {
+    opacity: 0.7;
+    color: var(--accent-color, #007bff);
+}
+
+.contact-actions {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+/* Project Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+}
+
+.modal-content {
+    margin: 50px auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 1000px;
+    background: var(--glass);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px; top: 15px;
+    font-size: 30px; color: white;
+    cursor: pointer;
+}
+
+.modal-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.modal-gallery-grid img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+/* Full Screen Lightbox Styles */
+/* Fixed Full Screen Lightbox Styles */
+.fullscreen-modal {
+    display: none; /* Keep this as the only display property */
+    position: fixed;
+    z-index: 3000;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    align-items: center;     /* Remove display: flex from here */
+    justify-content: center; /* It will be added by JavaScript later */
+    cursor: zoom-out;
+}
+
+#fullscreen-img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+}
+
+.close-fullscreen {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+}
+/* Secondary Button Style */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.03); /* Very subtle glass fill */
+    color: var(--text-white);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Translucent border */
+    padding: 15px 35px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    backdrop-filter: blur(5px); /* Glassmorphism effect */
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent); /* Lights up with your theme color */
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary:active {
+    transform: translateY(-1px);
+}
+.glass-card {
+    background: rgba(255, 255, 255, 0.01);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    padding: 40px;
+}
+/* Update: Base Profile Container */
+.hero-visual {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start; /* Pushes image toward the center */
+    perspective: 1000px;
+}
+
+.profile-frame {
+    width: 300px;
+    height: 450px;
+    background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+    border-radius: 24px;
+    padding: 3px;
+    position: relative;
+    box-shadow: 0 0 50px rgba(99, 102, 241, 0.2);
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+/* Ensure mobile layout still looks good */
+@media (max-width: 900px) {
+    .hero-section { 
+        flex-direction: column-reverse; 
+        text-align: center;
+        gap: 40px; 
+    }
+    .hero-content-wrapper { justify-content: center; }
+    .hero-visual { justify-content: center; }
+}
+/* New: Portrait Image Style */
+.portrait-profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fills the frame properly */
+    border-radius: 21px; /* Matches outer frame radius */
+    border: 2px solid var(--bg); /* Internal spacing from outer frame */
+    transition: transform 0.5s ease;
+}
+
+/* New: High-End Hover Interaction for the Image */
+.profile-frame:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(-5deg); /* Professional tilt */
+    box-shadow: 0 15px 70px rgba(99, 102, 241, 0.5); /* Stronger glow on hover */
+}
+
+.profile-frame:hover .portrait-profile {
+    transform: scale(1.05); /* Slight zoom within frame on hover */
+}
+
+/* Update: Media Queries for Portrait on Mobile */
+@media (max-width: 900px) {
+    .hero-section { flex-direction: column-reverse; text-align: center; }
+    .profile-frame { width: 280px; height: 420px; } /* Slightly scaled on mobile */
+    .glass-nav { gap: 20px; padding: 10px 20px; }
+    .nav-links { display: none; }
+}
+* {
+    font-family: 'Poppins', sans-serif, 'Times New Roman', Times, serif;
+}
+/* Style for MP4 Project Previews */
+.project-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintains aspect ratio while filling the box */
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+/* Ensure the hover effect still works on videos */
+.project-item:hover .project-video {
+    transform: scale(1.1);
+}
+
+/* Fix for mobile performance */
+@media (max-width: 768px) {
+    .project-video {
+        pointer-events: none; /* Prevents accidental clicks on mobile */
+    }
+}
+.project-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video fills the container */
+    display: block;
+    border-radius: 20px 20px 0 0; /* Matches your project card corners */
+}
+/* When the video starts, let clicks pass through the overlay to the video */
+.project-item.playing .project-overlay {
+    pointer-events: none; /* Allows double-click to hit the video element */
+    opacity: 0;
+}
+
+/* Ensure the video itself has a cursor so you know it's clickable */
+.project-video {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Keep volume indicator visible even if overlay is 'gone' */
+.project-item.playing .volume-indicator {
+    opacity: 1;
+    pointer-events: auto; /* Keep this clickable if you want to toggle mute */
+    z-index: 10;
+}
+
+/* Ensure the fullscreen video element is ready in your CSS */
+#fullscreen-video {
+    display: none;
+    max-width: 95%;
+    max-height: 90vh;
+    border-radius: 12px;
+    outline: none;
+}
+
+.video-mode #fullscreen-video {
+    display: block;
+}
+
+.video-mode #fullscreen-img {
+    display: none;
+}
+
+.fullscreen-modal.video-mode #fullscreen-img {
+    display: none;
+}
+
+.fullscreen-modal.video-mode #fullscreen-video {
+    display: block;
+}
+/* Stop button on the card */
+.close-card-video {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 20;
+    display: none; /* Hidden until video plays */
+}
+
+.project-item.playing .close-card-video {
+    display: block;
+}
+
+/* Fix: Make the overlay click-through when playing */
+.project-item.playing .project-overlay {
+    pointer-events: none;
+    opacity: 0.5; /* Keep it slightly visible so the volume icon stays */
+}
+
+.volume-control-group {
+    z-index: 100;
+    pointer-events: auto; /* Essential for dragging the slider */
+}
+
+.mute-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.volume-slider {
+    width: 60px;
+    cursor: pointer;
+    accent-color: var(--accent); /* Matches your CS-2B theme colors */
+}
+
+/* Ensure controls stay visible when video is playing */
+.project-item.playing .volume-control-group {
+    opacity: 1;
+    visibility: visible;
+}
+/* Glassmorphism Project Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    background: rgba(8, 8, 10, 0.6); /* Transparent dark base */
+    backdrop-filter: blur(20px) saturate(180%); /* Heavy blur for depth */
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    overflow-y: auto;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.modal-content {
+    margin: 80px auto;
+    padding: 50px;
+    width: 90%;
+    max-width: 1100px;
+    background: rgba(255, 255, 255, 0.03); /* Extremely subtle white tint */
+    border: 1px solid rgba(255, 255, 255, 0.12); /* Sharp, glass-like edge */
+    border-radius: 32px;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 
+                0 0 40px rgba(99, 102, 241, 0.1); /* Soft theme glow */
+}
+
+/* Modal Typography & Layout */
+#modal-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#modal-desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-bottom: 40px;
+    color: #94a3b8;
+}
+
+/* Gallery Grid inside Modal */
+.modal-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.modal-gallery-grid img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: zoom-in;
+}
+
+.modal-gallery-grid img:hover {
+    transform: scale(1.03) translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+}
+
+/* Close Button Styling */
+.close-modal {
+    position: absolute;
+    right: 30px; top: 30px;
+    width: 45px; height: 45px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close-modal:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    transform: rotate(90deg);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.video-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 30px auto;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.2);
+    background: #000;
+}
+
+.premium-video, .video-wrapper iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Maintains the Filmora cinematic ratio */
+    display: block;
+}
+
+/* Make it slightly larger on hover for interaction */
+.video-container:hover {
+    border-color: var(--accent);
+    transform: scale(1.01);
+    transition: 0.4s ease;
+}
+/* Ensure the overlay doesn't block the buttons */
+.project-item.playing .project-overlay {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Ensure controls stay on top of the playing video */
+.volume-control-group, .close-card-video {
+    z-index: 25;
+    pointer-events: auto;
+}
+
+/* Ensure the fullscreen modal is at the top of the layer stack */
+.fullscreen-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000; /* High z-index to stay above everything else */
+    justify-content: center;
+    align-items: center;
+}
+
+#fullscreen-video {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.5); /* Theme-matching glow */
+}
+.btn-fullscreen-trigger {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    padding-left: 5px;
+    border-left: 1px solid rgba(255,255,255,0.2);
+}
+
+.btn-fullscreen-trigger:hover {
+    color: var(--accent);
+    transform: scale(1.2);
+}
+
+.overlay-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Keep the controls visible even when the video is playing */
+.volume-control-group {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 15px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    z-index: 100; /* Ensure it stays above the video and overlay */
+    pointer-events: auto;
+}
+/* Makes the gallery look like a folder of files */
+.modal-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 10px;
+}
+
+.folder-file-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.folder-file-img:hover {
+    transform: scale(1.05);
+    border: 2px solid var(--accent);
+}
+
+
