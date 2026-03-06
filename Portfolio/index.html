@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+    (function(){
+      emailjs.init("ec5aDz2agPEZPVOxr");
+     })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jevie Y. Gimoto | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="mesh-bg"></div>
+    <div class="noise-overlay"></div>
+
+    <nav class="nav-container">
+        <div class="glass-nav">
+            <div class="logo">JEVIE<span>.</span></div>
+            <ul class="nav-links">
+                <li><a onclick="showPage('home')" id="link-home" class="active">Home</a></li>
+                <li><a onclick="showPage('projects')" id="link-projects">Projects</a></li>
+                <li><a onclick="showPage('about')" id="link-about">About</a></li>
+                <li><a onclick="showPage('contact')" id="link-contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main id="home" class="page active">
+        <div class="hero-section">
+            <div class="glass-hero">
+                <div class="hero-content">
+                    <span class="status-badge"><span class="dot"></span> Web Systems & Technologies 1</span>
+                    <h1 style="font-family: 'Times New Roman', Times, serif;">MY<br> <span class="gradient-text">PORTFOLIO</span></h1>
+                    <p>Hi, I'm <span class="highlight">Jevie Y. Gimoto</span>. A dedicated computer science student focused on building high-performance, beautiful web applications.</p>
+                    <div class="btn-group">
+                        <button class="btn-primary" onclick="showPage('projects')">See My Work</button>
+                        <button class="btn-secondary" onclick="showPage('contact')">Get in Touch</button>
+                    </div>
+                </div>
+            <div class="hero-visual">
+                <div class="profile-frame">
+                    <img src="NO.png" alt="Jevie Gimoto Profile" class="portrait-profile">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="projects" class="page">
+        <div class="section-header">
+            <h1>My <span class="gradient-text">Projects</span></h1>
+            <p>Click on a project to see more details and photos.</p>
+        </div>
+        <div class="project-grid">
+            <div class="project-item" onclick="openProject('Wifi Smart Camera Robot', 'A mobile robot featuring real-time video streaming and remote control via WiFi.', [
+                'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(6).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(5).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(4).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(10).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(11).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(12).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(13).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(14).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(15).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(16).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(17).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/   Smart%20Wifi%20Camera%20Robot/a%20(24).jpg',
+            'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(25).jpg',
+              'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(26).jpg'
+         ])">
+                <div class="project-image-box">
+                    <img src="https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Smart%20Wifi%20Camera%20Robot/a%20(1).jpg" alt="WiFi Smart Camera Robot">
+                    <div class="project-overlay"><span class="btn-mini">View Details</span></div>
+                </div>
+                <div class="project-info">
+                    <span class="tech-tag">Arduino & ESP32-CAM</span>
+                    <h3>WiFi Smart Camera Robot</h3>
+                    <p>Mobile robot with real-time streaming.</p>
+                </div>
+            </div>
+
+            <div class="project-item" onclick="openProject('Anime Wallpaper', 'A project using Photoshop to create anime wallpapers.', ['https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Anime%20wallpaper/Ichigo.jpg'])">
+                <div class="project-image-box">
+                    <img src="https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Anime%20wallpaper/Ichigo.jpg" alt="Anime Wallpaper">
+                    <div class="project-overlay"><span class="btn-mini">View Details</span></div>
+                </div>
+                <div class="project-info">
+                    <span class="tech-tag">Photoshop</span>
+                    <h3>Anime Wallpaper</h3>
+                    <p>Created using Photoshop.</p>
+                </div>
+            </div>
+
+       
+            <div class="project-item" onclick="openProject('Point of View', 'A Photography project capturing unique perspectives.', [
+    'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Point%20of%20View/pov%20(1).png',
+    'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Point%20of%20View/pov%20(2).png',
+    'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Point%20of%20View/pov%20(3).png'])">
+    <div class="project-image-box">
+        <img src="https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Point%20of%20View/Point.png" alt="Point of View">
+        <div class="project-overlay"><span class="btn-mini">View Details</span></div>
+    </div>
+    <div class="project-info">
+        <span class="tech-tag">Point of View</span>
+        <h3>Point of View</h3>
+        <p>An activity capturing a point of view.</p>
+    </div>
+</div>
+
+        <div class="project-item" onclick="openProject('Types of photoshop', 'A photography project featuring different types of photographs.', [
+    'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Types%20of%20photograph/pov%20(5).png',
+    'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Types%20of%20photograph/pov%20(6).png',
+    'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Types%20of%20photograph/pov%20(7).png',
+    'https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Types%20of%20photograph/pov%20(8).png'])">
+    <div class="project-image-box">
+        <img src="https://raw.githubusercontent.com/jeviegimoto-star/Portfolio/main/Portfolio/Types%20of%20photograph/pov%20(4).png" alt="Types of Photograph">
+        <div class="project-overlay"><span class="btn-mini">View Details</span></div>
+    </div>
+    <div class="project-info">
+        <span class="tech-tag">Types of Photograph</span>
+        <h3>Types of Photograph</h3>
+        <p>An activity capturing different types of photographs.</p>
+    </div>
+</div>
+
+            <div class="project-item" onclick="openProject('iTECHCONNECT', 'A project featuring highlights and activities from the IT/CS iTECHCONNECT event.', ['https://github.com/jeviegimoto-star/Portfolio/blob/main/Portfolio/iTECHCONNECT/4641.jpg',
+            'https://github.com/jeviegimoto-star/Portfolio/blob/main/Portfolio/iTECHCONNECT/4683.jpg',
+            'https://github.com/jeviegimoto-star/Portfolio/blob/main/Portfolio/iTECHCONNECT/4686.jpg',
+            'https://github.com/jeviegimoto-star/Portfolio/blob/main/Portfolio/iTECHCONNECT/4885.jpg',
+            'https://github.com/jeviegimoto-star/Portfolio/blob/main/Portfolio/iTECHCONNECT/4895.jpg',
+            'https://github.com/jeviegimoto-star/Portfolio/blob/main/Portfolio/iTECHCONNECT/4899.jpg',
+            'https://github.com/jeviegimoto-star/Portfolio/blob/main/Portfolio/iTECHCONNECT/4907.jpg',])">
+                <div class="project-image-box">
+                    <img src="https://github.com/jeviegimoto-star/Portfolio/blob/main/Portfolio/iTECHCONNECT/4642.jpg" alt="iTECHCONNECT">
+                    <div class="project-overlay"><span class="btn-mini">View Details</span></div>
+                </div>
+                <div class="project-info">
+                    <span class="tech-tag">iTECHCONNECT</span>
+                    <h3>IT/CS event</h3>
+                    <p>iTECHCONNECT activity</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<main id="about" class="page">
+    <div class="about-container">
+        <div class="about-header">
+            <div class="profile-glow">
+                <img src="Mee.png" alt="Jevie" class="profile-img">
+            </div>
+            <div class="header-text">
+                <h1>Jevie <span class="gradient-text">Gimoto</span></h1>
+                <p class="typewriter">> Computer Science Student / Explorer/Gamer/CC/AnimeWatcher/Ambivert</p>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="glass-card bio">
+                <h3><i class="fas fa-user-code"></i> About Me</h3>
+                <p>20-year-old developer based in <strong>Esperanza, Agusan del Sur</strong>.Second Year College and Currently Studying at NEMSU. When not coding, I'm likely lost in an anime world or playing games.</p>
+            </div>
+
+            <div class="glass-card skills">
+                <h3><i class="fas fa-microchip"></i> Tech Stack</h3>
+                <div class="skill-tags">
+                    <span class="tag"><i class="fab fa-html5"></i> HTML</span>
+                    <span class="tag"><i class="fab fa-css3-alt"></i> CSS</span>
+                    <span class="tag"><i class="fab fa-js"></i> JS</span>
+                </div>
+            </div>
+
+            <div class="glass-card favorites">
+                <h3><i class="fas fa-heart"></i> Preferences</h3>
+                <ul class="fav-list">
+                    <li><strong>Games:</strong> MLBB, CODM & Crossfire:Legends</li>
+                    <li><strong>Media:</strong> Anime & TikTok</li>
+                    <li><strong>Cuisine:</strong> Lechon Paksiw, Adobo, Humba</li>
+                    <li><strong>Sweets:</strong> Mango Float, Tapioca</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+    <main id="contact" class="page">
+    <div class="contact-card">
+        <h1 style="text-align: center;">Let's <span class="gradient-text">Collaborate</span></h1>
+        
+        <div class="contact-form-container">
+            <form id="email-form" class="contact-form">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+
+        <div class="social-section">
+            <p>Or find me on social media:</p>
+            <div class="social-grid">
+                <a href="https://facebook.com/jeviegimotoo" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>    
+                <a href="https://instagram.com/jevielmr" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="https://tiktok.com/@kaisen_seii" target="_blank" class="social-link"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </div>
+</main>
+
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeProject()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-desc"></p>
+            <div id="modal-gallery" class="modal-gallery-grid"></div>
+        </div>
+    </div>
+    
+    <div id="fullscreen-overlay" class="fullscreen-modal" onclick="closeFullscreen()">
+        <span class="close-fullscreen" onclick="closeFullscreen()">&times;</span>
+        <button class="fullscreen-nav prev" onclick="event.stopPropagation(); navigateFullscreen(-1)">&#10094;</button>
+        <div class="fullscreen-content" onclick="event.stopPropagation()">
+            <img id="fullscreen-img" src="" style="display:none;">
+            <video id="fullscreen-video" controls playsinline style="display:none;"></video>
+        </div>
+        <button class="fullscreen-nav next" onclick="event.stopPropagation(); navigateFullscreen(1)">&#10095;</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
