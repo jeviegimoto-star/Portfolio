@@ -18,28 +18,25 @@ function showPage(pageId) {
 // Project Modal Logic
 function openProject(title, description, photos) {
     const modal = document.getElementById('project-modal');
-    document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-desc').innerText = description;
-    
-    currentPhotoList = photos;
-    const gallery = document.getElementById('modal-gallery');
-    gallery.innerHTML = ''; 
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalGallery = document.getElementById('modal-gallery');
 
-    photos.forEach((src, index) => {
-        let element;
-        if (src.endsWith('.mp4')) {
-            element = document.createElement('video');
-            element.src = src;
-            element.muted = true;
-            element.loop = true;
-            element.controls = true;
-        } else {
-            element = document.createElement('img');
-            element.src = src;
-            element.onclick = () => openFullscreen(index);
-        }
-        element.className = "modal-media-item";
-        gallery.appendChild(element);
+    // CRITICAL FIX: Save the photos to the global list for fullscreen navigation
+    currentPhotoList = photos;
+
+    modalTitle.innerText = title;
+    modalDesc.innerHTML = `<i class="fas fa-folder-open" style="color: #6366f1;"></i> documents / ${title} / images <br><br> ${description}`;
+    
+    modalGallery.innerHTML = '';
+    photos.forEach((photoSrc, index) => {
+        const img = document.createElement('img');
+        img.src = photoSrc;
+        img.className = "folder-file-img"; 
+        img.onclick = function() { 
+            openFullscreen(index); 
+        };
+        modalGallery.appendChild(img);
     });
 
     modal.style.display = "block";
@@ -51,33 +48,40 @@ function closeProject() {
     document.body.style.overflow = "auto";
 }
 
-// Fullscreen Logic for Photos
+// Fullscreen Logic
 function openFullscreen(index) {
     currentPhotoIndex = index;
     const overlay = document.getElementById('fullscreen-overlay');
     const fullImg = document.getElementById('fullscreen-img');
     const fullVid = document.getElementById('fullscreen-video');
+    const src = currentPhotoList[index];
 
-    fullVid.style.display = "none";
-    fullImg.style.display = "block";
-    fullImg.src = currentPhotoList[index];
+    // Toggle navigation buttons visibility based on list length
+    if (currentPhotoList.length <= 1) {
+        overlay.classList.add('single-item');
+    } else {
+        overlay.classList.remove('single-item');
+    }
+
+    if (src.toLowerCase().endsWith('.mp4')) {
+        fullImg.style.display = "none";
+        fullVid.style.display = "block";
+        fullVid.src = src;
+        fullVid.play();
+    } else {
+        fullVid.style.display = "none";
+        fullVid.pause();
+        fullImg.style.display = "block";
+        fullImg.src = src;
+    }
+    
     overlay.style.display = "flex";
 }
 
-// Fullscreen Logic for Videos (Triggered by Double Click)
-function openVideoFullscreen(src, vol, muted) {
-    const overlay = document.getElementById('fullscreen-overlay');
-    const fullVid = document.getElementById('fullscreen-video');
-    const fullImg = document.getElementById('fullscreen-img');
-
-    fullImg.style.display = "none";
-    fullVid.style.display = "block";
-    fullVid.src = src;
-    fullVid.volume = vol;
-    fullVid.muted = muted;
-    
-    overlay.style.display = "flex";
-    fullVid.play();
+function navigateFullscreen(dir) {
+    if (currentPhotoList.length <= 1) return;
+    currentPhotoIndex = (currentPhotoIndex + dir + currentPhotoList.length) % currentPhotoList.length;
+    openFullscreen(currentPhotoIndex);
 }
 
 function closeFullscreen() {
@@ -90,7 +94,7 @@ function closeFullscreen() {
     overlay.style.display = "none";
 }
 
-// Video Card Controls (Play, Volume, Mute)
+// Video Card Controls
 function handleVideoClick(overlay) {
     const container = overlay.closest('.project-item');
     const video = container.querySelector('.project-video');
@@ -109,28 +113,6 @@ function handleVideoClick(overlay) {
     }
 }
 
-function handleVideoDblClick(video) {
-    clearTimeout(clickTimer);
-    clickTimer = null;
-    const src = video.querySelector('source').src;
-    openVideoFullscreen(src, video.volume, video.muted);
-}
-function changeVolume(slider) {
-    const video = slider.closest('.project-item').querySelector('.project-video');
-    video.volume = slider.value;
-    
-    // If user moves slider, automatically unmute
-    if (slider.value > 0) video.muted = false;
-    
-    const icon = slider.closest('.project-item').querySelector('#mute-icon');
-    icon.className = slider.value == 0 ? "fas fa-volume-mute" : "fas fa-volume-up";
-}
-function toggleMute(btn) {
-    const video = btn.closest('.project-item').querySelector('.project-video');
-    video.muted = !video.muted;
-    btn.querySelector('i').className = video.muted ? "fas fa-volume-mute" : "fas fa-volume-up";
-}
-
 function stopCardVideo(btn) {
     const container = btn.closest('.project-item');
     const video = container.querySelector('.project-video');
@@ -139,71 +121,64 @@ function stopCardVideo(btn) {
     container.classList.remove('playing');
 }
 
-// Modal closing helpers
-window.onclick = (e) => { if (e.target.id === 'project-modal') closeProject(); };
-
-// Keyboard Navigation
-document.addEventListener('keydown', (e) => {
-    const overlay = document.getElementById('fullscreen-overlay');
-    if (overlay.style.display === "flex") {
-        if (e.key === "ArrowRight") navigatePhotos(1);
-        if (e.key === "ArrowLeft") navigatePhotos(-1);
-        if (e.key === "Escape") closeFullscreen();
-    }
-});
-
-function navigatePhotos(dir) {
-    currentPhotoIndex = (currentPhotoIndex + dir + currentPhotoList.length) % currentPhotoList.length;
-    document.getElementById('fullscreen-img').src = currentPhotoList[currentPhotoIndex];
-}
 function triggerFullscreenFromBtn(event, btn) {
-    // Prevent the click from also triggering the play/pause overlay
     event.stopPropagation(); 
-    
     const container = btn.closest('.project-item');
     const cardVideo = container.querySelector('.project-video');
     const videoSrc = cardVideo.querySelector('source').src;
-    
-    // Capture state
-    const currentVol = cardVideo.volume;
-    const isMuted = cardVideo.muted;
-    const currentTime = cardVideo.currentTime; 
 
-    // STOP the card video immediately to prevent double sound/echo
-    cardVideo.pause();
-    // Optional: Hide the 'playing' UI on the card since we are going fullscreen
-    container.classList.remove('playing');
-
-    // Launch Fullscreen with captured state
-    openVideoFullscreen(videoSrc, currentVol, isMuted, currentTime);
+    // Use a temporary list for single video fullscreen
+    currentPhotoList = [videoSrc];
+    openFullscreen(0);
 }
 
-function openVideoFullscreen(src, vol, muted, time) {
-    const overlay = document.getElementById('fullscreen-overlay');
-    const fullVid = document.getElementById('fullscreen-video');
-
-    fullVid.src = src;
-    fullVid.volume = vol;
-    fullVid.muted = muted;
-    fullVid.currentTime = time; // Start where we left off
-    
-    fullVid.style.display = "block";
-    overlay.style.display = "flex";
-    fullVid.play();
+function changeVolume(slider) {
+    const video = slider.closest('.project-item').querySelector('.project-video');
+    video.volume = slider.value;
+    if (slider.value > 0) video.muted = false;
+    const icon = slider.closest('.project-item').querySelector('#mute-icon');
+    icon.className = slider.value == 0 ? "fas fa-volume-mute" : "fas fa-volume-up";
 }
 
-// Update the Close function to handle the return
-function closeFullscreen() {
-    const overlay = document.getElementById('fullscreen-overlay');
-    const fullVid = document.getElementById('fullscreen-video');
-    
-    if (fullVid) {
-        fullVid.pause();
-        // Optional: If you want the card video to RESUME when closing:
-        // const cardVideo = document.querySelector('.project-video');
-        // cardVideo.currentTime = fullVid.currentTime;
-        // cardVideo.play();
-    }
-    
-    overlay.style.display = "none";
+function toggleMute(btn) {
+    const video = btn.closest('.project-item').querySelector('.project-video');
+    video.muted = !video.muted;
+    btn.querySelector('i').className = video.muted ? "fas fa-volume-mute" : "fas fa-volume-up";
 }
+
+document.getElementById('email-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Change the button text to show it's sending
+    const btn = this.querySelector('button');
+    const originalText = btn.innerHTML;
+    btn.innerText = "Sending...";
+    btn.disabled = true;
+
+    // These IDs come from your EmailJS dashboard
+    const serviceID = 'service_1xsp56q';
+    const templateID = 'template_aeeb2dt';
+
+    emailjs.sendForm(serviceID, templateID, this)
+        .then(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert('Message sent successfully!');
+            this.reset(); // Clears the form
+        }, (err) => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert('Failed to send message. Please try again.');
+            console.error("EmailJS Error:", err);
+        });
+});
+// Create the glow element
+const cursorGlow = document.createElement('div');
+cursorGlow.className = 'cursor-glow';
+document.body.appendChild(cursorGlow);
+
+// Move the glow with mouse
+document.addEventListener('mousemove', (e) => {
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top = e.clientY + 'px';
+});

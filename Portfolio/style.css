@@ -1,17 +1,15 @@
 :root {
-    --bg: #08080a;
-    --accent: #6366f1;
-    --accent-glow: rgba(99, 102, 241, 0.5);
-    --text-white: #ffffff;
-    --text-gray: #94a3b8;
-    --glass: rgba(255, 255, 255, 0.05);
+    --bg: #050508; 
+    --accent: #393dfa; 
+    --accent-glow: rgba(99, 102, 241, 0.35); 
+    --text-white: #ffffff; 
+    --text-gray: #94a3b8; 
+    --glass: rgba(255, 255, 255, 0.03); 
+    --card-border: rgba(255, 255, 255, 0.08);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 body { background: var(--bg); color: var(--text-white); overflow-x: hidden; }
 
-/* Dynamic Mesh Background */
-/* Enhanced Dynamic Animated Background */
 .mesh-bg {
     position: fixed;
     top: 0;
@@ -25,8 +23,56 @@ body { background: var(--bg); color: var(--text-white); overflow-x: hidden; }
         radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
         radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
-    filter: blur(80px); /* Softens the colors into a mesh */
-    animation: backgroundMove 20s infinite alternate ease-in-out;
+    animation: backgroundPulse 15s ease infinite alternate;
+}
+
+@keyframes backgroundPulse {
+    0% {
+        transform: scale(1);
+        filter: hue-rotate(0deg);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: hue-rotate(20deg);
+    }
+    100% {
+        transform: scale(1.05);
+        filter: hue-rotate(-10deg);
+    }
+}
+
+/* Add floating "Ambient Glow" spheres */
+.mesh-bg::after {
+    content: "";
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: floatGlow 20s infinite linear;
+}
+
+@keyframes floatGlow {
+    0% { transform: translate(0, 0); }
+    33% { transform: translate(10vw, 20vh); }
+    66% { transform: translate(-5vw, 10vh); }
+    100% { transform: translate(0, 0); }
+}
+
+/* Enhanced Grainy Noise for texture */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.05;
+    pointer-events: none;
 }
 
 /* Moving Animation for the Mesh */
@@ -80,6 +126,11 @@ body { background: var(--bg); color: var(--text-white); overflow-x: hidden; }
     display: none; padding: 160px 10% 80px; min-height: 100vh;
     animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.glass-hero {
+    background: rgba(15, 15, 20, 0.7); backdrop-filter: blur(15px);
+    padding: 100px 100px; border-radius: 100px; border: 1px solid rgb(21, 0, 255);
+    display: flex; gap: 50px; align-items: center;
+}
 .page.active { display: block; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -98,7 +149,7 @@ body { background: var(--bg); color: var(--text-white); overflow-x: hidden; }
 .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    gap: 40px;
     margin-top: 40px;
 }
 
@@ -112,7 +163,7 @@ body { background: var(--bg); color: var(--text-white); overflow-x: hidden; }
 
 .project-image-box {
     position: relative;
-    height: 200px;
+    height: 300px;
     background: #111;
     overflow: hidden;
 }
@@ -412,88 +463,6 @@ h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
     transition: transform 0.5s ease;
 }
 
-/* Ensure the hover effect still works on videos */
-.project-item:hover .project-video {
-    transform: scale(1.1);
-}
-
-/* Fix for mobile performance */
-@media (max-width: 768px) {
-    .project-video {
-        pointer-events: none; /* Prevents accidental clicks on mobile */
-    }
-}
-.project-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures the video fills the container */
-    display: block;
-    border-radius: 20px 20px 0 0; /* Matches your project card corners */
-}
-/* When the video starts, let clicks pass through the overlay to the video */
-.project-item.playing .project-overlay {
-    pointer-events: none; /* Allows double-click to hit the video element */
-    opacity: 0;
-}
-
-/* Ensure the video itself has a cursor so you know it's clickable */
-.project-video {
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Keep volume indicator visible even if overlay is 'gone' */
-.project-item.playing .volume-indicator {
-    opacity: 1;
-    pointer-events: auto; /* Keep this clickable if you want to toggle mute */
-    z-index: 10;
-}
-
-/* Ensure the fullscreen video element is ready in your CSS */
-#fullscreen-video {
-    display: none;
-    max-width: 95%;
-    max-height: 90vh;
-    border-radius: 12px;
-    outline: none;
-}
-
-.video-mode #fullscreen-video {
-    display: block;
-}
-
-.video-mode #fullscreen-img {
-    display: none;
-}
-
-.fullscreen-modal.video-mode #fullscreen-img {
-    display: none;
-}
-
-.fullscreen-modal.video-mode #fullscreen-video {
-    display: block;
-}
-/* Stop button on the card */
-.close-card-video {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 0, 0, 0.6);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    z-index: 20;
-    display: none; /* Hidden until video plays */
-}
-
-.project-item.playing .close-card-video {
-    display: block;
-}
 
 /* Fix: Make the overlay click-through when playing */
 .project-item.playing .project-overlay {
@@ -504,20 +473,6 @@ h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
 .volume-control-group {
     z-index: 100;
     pointer-events: auto; /* Essential for dragging the slider */
-}
-
-.mute-btn {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 1.1rem;
-}
-
-.volume-slider {
-    width: 60px;
-    cursor: pointer;
-    accent-color: var(--accent); /* Matches your CS-2B theme colors */
 }
 
 /* Ensure controls stay visible when video is playing */
@@ -621,40 +576,6 @@ h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
     from { opacity: 0; }
     to { opacity: 1; }
 }
-.video-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 30px auto;
-    border-radius: 20px;
-    overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.2);
-    background: #000;
-}
-
-.premium-video, .video-wrapper iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9; /* Maintains the Filmora cinematic ratio */
-    display: block;
-}
-
-/* Make it slightly larger on hover for interaction */
-.video-container:hover {
-    border-color: var(--accent);
-    transform: scale(1.01);
-    transition: 0.4s ease;
-}
-/* Ensure the overlay doesn't block the buttons */
-.project-item.playing .project-overlay {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Ensure controls stay on top of the playing video */
-.volume-control-group, .close-card-video {
-    z-index: 25;
-    pointer-events: auto;
-}
 
 /* Ensure the fullscreen modal is at the top of the layer stack */
 .fullscreen-modal {
@@ -670,12 +591,6 @@ h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
     align-items: center;
 }
 
-#fullscreen-video {
-    max-width: 90%;
-    max-height: 80vh;
-    border-radius: 12px;
-    box-shadow: 0 0 30px rgba(99, 102, 241, 0.5); /* Theme-matching glow */
-}
 .btn-fullscreen-trigger {
     background: none;
     border: none;
@@ -738,5 +653,213 @@ h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
     transform: scale(1.05);
     border: 2px solid var(--accent);
 }
+.fullscreen-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
 
+
+.fullscreen-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 3rem;
+    padding: 20px 25px;
+    cursor: pointer;
+    z-index: 10001;
+    transition: 0.3s;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+}
+
+.fullscreen-nav:hover {
+    background: var(--accent);
+    color: white;
+}
+
+.fullscreen-nav.prev { left: 30px; }
+.fullscreen-nav.next { right: 30px; }
+
+/* Responsive navigation for mobile */
+@media (max-width: 600px) {
+    .fullscreen-nav {
+        font-size: 1.5rem;
+        padding: 10px 15px;
+    }
+    .fullscreen-nav.prev { left: 10px; }
+    .fullscreen-nav.next { right: 10px; }
+}
+
+/* Modal Gallery spacing */
+.folder-file-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    border: 2px solid transparent;
+}
+
+.folder-file-img:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+/* Contact Form Styling */
+.contact-form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.social-section {
+    margin-top: 60px;
+    text-align: center;
+}
+
+.social-section p {
+    color: var(--text-gray);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.social-grid {
+    margin-top: 0 !important; /* Resetting previous margin */
+}
+.about-container {
+    max-width: 1000px;
+    margin: 100px auto;
+    padding: 20px;
+}
+
+/* Profile Header */
+.about-header {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.profile-glow {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    padding: 5px;
+    background: linear-gradient(45deg, var(--accent), #a855f7);
+    box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg);
+}
+
+/* Info Cards */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 20px;
+    transition: 0.3s ease;
+}
+
+.glass-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+}
+
+.bio { grid-column: span 2; }
+
+.glass-card h3 {
+    color: var(--accent);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Tags & Lists */
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tag {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.fav-list {
+    list-style: none;
+    font-size: 0.9rem;
+}
+
+.fav-list li {
+    margin-bottom: 8px;
+    color: var(--text-gray);
+}
+
+.fav-list strong { color: var(--text-white); }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .about-header { flex-direction: column; text-align: center; }
+    .info-grid { grid-template-columns: 1fr; }
+    .bio { grid-column: span 1; }
+}
 
